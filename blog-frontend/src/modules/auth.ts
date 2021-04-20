@@ -1,4 +1,9 @@
-import { createAction, handleActions } from 'redux-actions';
+// import { createAction, handleActions } from 'redux-actions';
+import {
+  createAction,
+  createReducer,
+  ActionType,
+} from 'typesafe-actions';
 import produce from 'immer';
 import { takeLatest } from 'redux-saga/effects';
 import createRequestSaga, {createRequestActionTypes} from '../lib/createRequestSaga';
@@ -30,16 +35,19 @@ export const changeField = createAction(
     key, // username, password, passwordConfirm
     value // 실제 바꾸려는 값
   })
-);
-export const initializeForm = createAction(INITIALIZE_FORM, form => form); // register / login
+)();
+export const initializeForm = createAction(INITIALIZE_FORM, form => form)(); // register / login
 export const register = createAction(REGISTER, ({ username, password }) => ({
   username,
   password
-}));
+}))();
 export const login = createAction(LOGIN, ({ username, password }) => ({
   username,
   password
-}));
+}))();
+
+const actions =  {changeField, initializeForm, register, login};
+type AuthAction = ActionType<typeof actions>;
 
 // saga 생성
 // console.log(authAPI.register+'..'+authAPI.login);
@@ -50,7 +58,20 @@ export function* authSaga() {
   yield takeLatest(LOGIN, loginSaga);
 }
 
-const initialState = {
+type AuthState = {
+  register: {
+    username: string,
+    password: string,
+    passwordConfirm: string
+  },
+  login: {
+    username: string,
+    password: string
+  },
+  auth: string | null,
+  authError: string | null
+}
+const initialState:AuthState | any = {
   register: {
     username: '',
     password: '',
@@ -64,10 +85,9 @@ const initialState = {
   authError: null
 };
 
-const auth = handleActions(
-  {
+const auth = createReducer<AuthState, AuthAction>(initialState, {
     [CHANGE_FIELD]: (state, { payload: { form, key, value } }) =>
-      produce(state, draft => {
+      produce(state,(draft:any) => {
         draft[form][key] = value; // 예: state.register.username을 바꾼다
       }),
     [INITIALIZE_FORM]: (state, { payload: form }) => ({
@@ -97,8 +117,43 @@ const auth = handleActions(
       ...state,
       authError: error
     })
-  },
-  initialState
-);
+})
+
+// const auth = handleActions(
+//   {
+//     [CHANGE_FIELD]: (state, { payload: { form, key, value } }) =>
+//       produce(state, draft => {
+//         draft[form][key] = value; // 예: state.register.username을 바꾼다
+//       }),
+//     [INITIALIZE_FORM]: (state, { payload: form }) => ({
+//       ...state,
+//       [form]: initialState[form],
+//       authError: null // 폼 전환 시 회원 인증 에러 초기화
+//     }),
+//     // 회원가입 성공
+//     [REGISTER_SUCCESS]: (state, { payload: auth }) => ({
+//       ...state,
+//       authError: null,
+//       auth
+//     }),
+//     // 회원가입 실패
+//     [REGISTER_FAILURE]: (state, { payload: error }) => ({
+//       ...state,
+//       authError: error
+//     }),
+//     // 로그인 성공
+//     [LOGIN_SUCCESS]: (state, { payload: auth }) => ({
+//       ...state,
+//       authError: null,
+//       auth
+//     }),
+//     // 로그인 실패
+//     [LOGIN_FAILURE]: (state, { payload: error }) => ({
+//       ...state,
+//       authError: error
+//     })
+//   },
+//   initialState
+// );
 
 export default auth;

@@ -1,6 +1,5 @@
 import {
   createAction,
-  createAsyncAction,
   createReducer,
   ActionType,
 } from 'typesafe-actions';
@@ -17,15 +16,9 @@ const [CHECK, CHECK_SUCCESS, CHECK_FAILURE] = createRequestActionTypes(
 );
 const LOGOUT = 'user/LOGOUT';
 
+export const logout = createAction(LOGOUT)<string>();
 export const tempSetUser = createAction(TEMP_SET_USER)<string>();
-export const check = createAction(CHECK)<any>();
-export const logout = createAction(LOGOUT)<any>();
-
-// const testAsync = createAsyncAction(
-//     TEMP_SET_USER,
-//     CHECK,
-//     LOGOUT
-// )<any, any, any>();
+export const check = createAction(CHECK)<string>();
 
 const actions = { tempSetUser, check, logout };
 type UserAction = ActionType<typeof actions>;
@@ -56,8 +49,8 @@ export function* userSaga() {
 }
 
 type UserState = {
-  user: any;
-  checkError: any;
+  user: string | null;
+  checkError: string | null;
 };
 const initialState: UserState = {
   user: null,
@@ -85,30 +78,5 @@ const user = createReducer<UserState, UserAction>(initialState, {
       user: null,
     }),
 })
-
-
-// export default createReducer<UserState, UserAction>(
-//   initialState,
-//   {
-//     [TEMP_SET_USER]: (state, { payload: user }) => ({
-//       ...state,
-//       user,
-//     }),
-//     [CHECK_SUCCESS]: (state, { payload: user }) => ({
-//       ...state,
-//       user,
-//       checkError: null,
-//     }),
-//     [CHECK_FAILURE]: (state, { payload: error }) => ({
-//       ...state,
-//       user: null,
-//       checkError: error,
-//     }),
-//     [LOGOUT]: (state) => ({
-//       ...state,
-//       user: null,
-//     }),
-//   }
-// );
 
 export default user;
