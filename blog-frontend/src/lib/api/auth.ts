@@ -1,8 +1,8 @@
 import client from './client';
 
 type UserInfo = {
-    username : String
-    password : String
+    username : string
+    password : string
 }
 // 로그인
 export const login = ({username, password} : UserInfo) =>

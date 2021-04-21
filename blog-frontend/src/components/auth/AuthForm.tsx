@@ -64,14 +64,26 @@ const ButtonWithMarginTop = styled(Button)`
   margin-top: 1rem;
 `;
 
-const textMap = {
+const textMap: any = {
   login: '로그인',
   register: '회원가입',
 };
 
-const AuthForm = ({ type, form, onChange, onSubmit, error }) => {
+const AuthForm = ({
+  type,
+  form,
+  onChange,
+  onSubmit,
+  error,
+}: {
+  type: string;
+  form: any;
+  onChange: any;
+  onSubmit: any;
+  error: any;
+}) => {
   const text = textMap[type];
-  
+
   return (
     <AuthFormBlock>
       <h3>{text}</h3>
@@ -101,7 +113,7 @@ const AuthForm = ({ type, form, onChange, onSubmit, error }) => {
             value={form.passwordConfirm}
           />
         )}
-       {error && <ErrorMessage>{error}</ErrorMessage>}
+        {error && <ErrorMessage>{error}</ErrorMessage>}
         <ButtonWithMarginTop cyan fullWidth style={{ marginTop: '1rem' }}>
           {text}
         </ButtonWithMarginTop>
