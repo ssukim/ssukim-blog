@@ -38,7 +38,7 @@ const WhiteBox = styled.div`
   border-radius: 2px;
 `;
 
-const AuthTemplate = ({children}) => {
+const AuthTemplate = ({children}:any) => {
   return (
     <AuthTemplateBlock>
       <WhiteBox>

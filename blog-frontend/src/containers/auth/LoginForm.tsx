@@ -1,4 +1,4 @@
-import React, { FormEvent, useEffect, useState } from 'react';
+import React, { FormEvent, ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../modules';
 import { withRouter } from 'react-router-dom';
@@ -7,10 +7,10 @@ import AuthForm from '../../components/auth/AuthForm';
 import { check } from '../../modules/user';
 
 const LoginForm = ({ history }: any) => {
-  const [error, setError] = useState('');
+  const [error, setError] = useState<string>('');
 
   const dispatch = useDispatch();
-  const { form, auth, authError, user } = useSelector((state:RootState) => ({
+  const { form, auth, authError, user } = useSelector((state: RootState) => ({
     form: state.auth.login,
     auth: state.auth.auth,
     authError: state.auth.authError,
@@ -18,8 +18,8 @@ const LoginForm = ({ history }: any) => {
   }));
 
   //인풋 변경 이벤트 핸들러
-  const onChange = (e: FormEvent<HTMLFormElement>) => {
-    const { value, name }:any = e.target;
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value, name }: any = e.target;
     dispatch(
       changeField({
         form: 'login',

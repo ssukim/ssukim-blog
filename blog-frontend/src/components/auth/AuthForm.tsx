@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { FormEventHandler, ChangeEventHandler } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import palette from '../../lib/styles/palette';
 import Button from '../common/Button';
 
+type AuthFormProps = {
+  username: string;
+  password: string;
+  passwordConfirm ?: string;
+};
 /**
  * 회원가입 또는 로그인 폼을 보여 줍니다.
  */
-
 const AuthFormBlock = styled.div`
   h3 {
     margin: 0;
@@ -64,7 +68,7 @@ const ButtonWithMarginTop = styled(Button)`
   margin-top: 1rem;
 `;
 
-const textMap: any = {
+const textMap: { login: string; register: string } | any = {
   login: '로그인',
   register: '회원가입',
 };
@@ -77,10 +81,10 @@ const AuthForm = ({
   error,
 }: {
   type: string;
-  form: any;
-  onChange: any;
-  onSubmit: any;
-  error: any;
+  form: AuthFormProps;
+  onChange: ChangeEventHandler<HTMLInputElement>;
+  onSubmit: FormEventHandler<HTMLFormElement>;
+  error: string;
 }) => {
   const text = textMap[type];
 
