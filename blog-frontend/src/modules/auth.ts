@@ -67,8 +67,13 @@ type AuthState = {
     password: string;
   };
   auth: string | null;
-  authError: string | null;
+  authError: {
+    response: {
+      status: number;
+    };
+  } | null;
 };
+
 const initialState: AuthState = {
   register: {
     username: '',

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 // import { withRouter } from 'react-router-dom';
 import palette from '../../lib/styles/palette';
 
@@ -51,7 +51,13 @@ import palette from '../../lib/styles/palette';
 //   return <StyledButton {...rest} onClick={onClick} />;
 // };
 
-const buttonStyle = css`
+type ButtonProps = {
+  to: string;
+  fullWidth: boolean;
+  cyan: boolean;
+};
+
+const buttonStyle = css<any>`
   border: none;
   border-radius: 4px;
   font-size: 1rem;
@@ -93,12 +99,14 @@ const StyledLink = styled(Link)`
   ${buttonStyle}
 `;
 
-const Button = props => {
+const Button = (props:any) => {
+  // console.log('Link: ' + JSON.stringify(Link));
+  console.log('props: ' + JSON.stringify(props));
   return props.to ? (
-    <StyledLink {...props} cyan={props.cyan ? 1 : 0} />
+    <StyledLink {...props} cyan={props.cyan ? true : false} />
   ) : (
     <StyledButton {...props} />
   );
-}
+};
 
 export default Button;

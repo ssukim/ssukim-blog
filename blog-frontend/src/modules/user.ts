@@ -16,11 +16,11 @@ const [CHECK, CHECK_SUCCESS, CHECK_FAILURE] = createRequestActionTypes(
 );
 const LOGOUT = 'user/LOGOUT';
 
-export const logout = createAction(LOGOUT)<string>();
+export const logout = createAction(LOGOUT)();
 export const tempSetUser = createAction(TEMP_SET_USER)<string>();
-export const check = createAction(CHECK)<string>();
+export const check = createAction(CHECK)<string|null>();
 
-const actions = { tempSetUser, check, logout };
+const actions = { tempSetUser, check };
 type UserAction = ActionType<typeof actions>;
 
 const checkSaga = createRequestSaga(CHECK, authAPI.check);

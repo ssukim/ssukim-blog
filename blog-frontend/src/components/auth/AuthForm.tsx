@@ -4,11 +4,6 @@ import { Link } from 'react-router-dom';
 import palette from '../../lib/styles/palette';
 import Button from '../common/Button';
 
-type AuthFormProps = {
-  username: string;
-  password: string;
-  passwordConfirm ?: string;
-};
 /**
  * 회원가입 또는 로그인 폼을 보여 줍니다.
  */
@@ -64,11 +59,13 @@ const ErrorMessage = styled.div`
   margin-top: 1rem;
 `;
 
-const ButtonWithMarginTop = styled(Button)`
-  margin-top: 1rem;
-`;
+type AuthFormProps = {
+  username: string;
+  password: string;
+  passwordConfirm?: string;
+};
 
-const textMap: { login: string; register: string } | any = {
+const textMap: { login: string; register: string } = {
   login: '로그인',
   register: '회원가입',
 };
@@ -86,7 +83,7 @@ const AuthForm = ({
   onSubmit: FormEventHandler<HTMLFormElement>;
   error: string;
 }) => {
-  const text = textMap[type];
+  const text = type === 'login' ? textMap['login'] : textMap['register'];
 
   return (
     <AuthFormBlock>
@@ -118,9 +115,9 @@ const AuthForm = ({
           />
         )}
         {error && <ErrorMessage>{error}</ErrorMessage>}
-        <ButtonWithMarginTop cyan fullWidth style={{ marginTop: '1rem' }}>
+        <Button cyan fullWidth style={{ marginTop: '1rem' }}>
           {text}
-        </ButtonWithMarginTop>
+        </Button>
       </form>
       <Footer>
         {type === 'login' ? (

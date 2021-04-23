@@ -1,12 +1,18 @@
-import React, { FormEvent, ChangeEvent, useEffect, useState } from 'react';
+import React, {
+  FormEvent,
+  ChangeEvent,
+  FunctionComponent,
+  useEffect,
+  useState,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../modules';
-import { withRouter } from 'react-router-dom';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { changeField, initializeForm, login } from '../../modules/auth';
 import AuthForm from '../../components/auth/AuthForm';
 import { check } from '../../modules/user';
 
-const LoginForm = ({ history }: any) => {
+const LoginForm: FunctionComponent<RouteComponentProps> = ({ history }) => {
   const [error, setError] = useState<string>('');
 
   const dispatch = useDispatch();
@@ -19,7 +25,7 @@ const LoginForm = ({ history }: any) => {
 
   //인풋 변경 이벤트 핸들러
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value, name }: any = e.target;
+    const { value, name } = e.target;
     dispatch(
       changeField({
         form: 'login',
@@ -50,7 +56,7 @@ const LoginForm = ({ history }: any) => {
     }
     if (auth) {
       console.log('로그인 성공');
-      dispatch(check(''));
+      dispatch(check(null));
     }
   }, [auth, authError, dispatch]);
 

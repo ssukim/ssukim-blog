@@ -1,3 +1,4 @@
+import { AxiosResponse } from 'axios';
 import { call, put } from 'redux-saga/effects';
 import { startLoading, finishLoading } from '../modules/loading';
 
@@ -6,14 +7,14 @@ type response = {
 }
 
 export const createRequestActionTypes = (type:string) => {
-  console.log('createRequestActionTypes type: '+type);
+  // console.log('createRequestActionTypes type: '+type);
   const SUCCESS = `${type}_SUCCESS`;
   const FAILURE = `${type}_FAILURE`;
   return [type, SUCCESS, FAILURE];
 };
 
 export default function createRequestSaga(type:string, request:any) {
-  console.log('createRequestSaga type: '+type);
+  // console.log('createRequestSaga type: '+type);
   console.log('createRequestSaga request: '+request);
   const SUCCESS = `${type}_SUCCESS`;
   const FAILURE = `${type}_FAILURE`;
@@ -21,7 +22,7 @@ export default function createRequestSaga(type:string, request:any) {
   return function*(action:any) {
     yield put(startLoading(type)); // 로딩 시작
     try {
-      console.log('response: '+JSON.stringify(action.payload));
+      // console.log('response: '+JSON.stringify(action.payload));
   
       const response:response = yield call(request, action.payload);
       yield put({
