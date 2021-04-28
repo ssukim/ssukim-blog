@@ -7,9 +7,9 @@ import React, {
   } from 'react';
   import { useDispatch, useSelector } from 'react-redux';
   import { RootState } from '../../modules';
-  import { changeField, initializeForm, register } from '../../modules/auth';
+  import { changeField, initializeForm, register } from '../../modules/auth/auth';
   import AuthForm from '../../components/auth/AuthForm';
-  import { check } from '../../modules/user';
+  import { getCheckStateAsync } from '../../modules/user';
   import { withRouter, RouteComponentProps } from 'react-router-dom';
   
   const RegisterForm: FunctionComponent<RouteComponentProps> = ({ history }) => {
@@ -75,7 +75,7 @@ import React, {
       if (auth) {
         console.log('회원가입 성공');
         // console.log(auth);
-        dispatch(check(null));
+        dispatch(getCheckStateAsync.request(''));
       }
     }, [auth, authError, dispatch]);
   

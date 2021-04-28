@@ -43,6 +43,8 @@ const UserInfo = styled.div`
 `;
 
 const Header = ({ user, onLogout }: any) => {
+  // console.log(user)
+
   return (
     <>
       <HeaderBlock>

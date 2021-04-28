@@ -8,9 +8,10 @@ import React, {
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../modules';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
-import { changeField, initializeForm, login } from '../../modules/auth';
+import { changeField, initializeForm, login } from '../../modules/auth/auth';
+// import { getAuthAsync } from '../../modules/auth';
 import AuthForm from '../../components/auth/AuthForm';
-import { check } from '../../modules/user';
+import { getCheckStateAsync } from '../../modules/user';
 
 const LoginForm: FunctionComponent<RouteComponentProps> = ({ history }) => {
   const [error, setError] = useState<string>('');
@@ -56,7 +57,7 @@ const LoginForm: FunctionComponent<RouteComponentProps> = ({ history }) => {
     }
     if (auth) {
       console.log('로그인 성공');
-      dispatch(check(null));
+      dispatch(getCheckStateAsync.request(''));
     }
   }, [auth, authError, dispatch]);
 

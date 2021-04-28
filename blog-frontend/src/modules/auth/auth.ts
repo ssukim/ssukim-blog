@@ -1,11 +1,14 @@
-// import { createAction, handleActions } from 'redux-actions';
-import { createAction, createReducer, ActionType } from 'typesafe-actions';
+import {
+  createAction,
+  createReducer,
+  ActionType,
+} from 'typesafe-actions';
 import produce from 'immer';
 import { takeLatest } from 'redux-saga/effects';
 import createRequestSaga, {
   createRequestActionTypes,
-} from '../lib/createRequestSaga';
-import * as authAPI from '../lib/api/auth';
+} from '../../lib/createRequestSaga';
+import * as authAPI from '../../lib/api/auth';
 
 const CHANGE_FIELD = 'auth/CHANGE_FIELD';
 const INITIALIZE_FORM = 'auth/INITIALIZE_FORM';

@@ -51,12 +51,6 @@ import palette from '../../lib/styles/palette';
 //   return <StyledButton {...rest} onClick={onClick} />;
 // };
 
-type ButtonProps = {
-  to: string;
-  fullWidth: boolean;
-  cyan: boolean;
-};
-
 const buttonStyle = css<any>`
   border: none;
   border-radius: 4px;
@@ -101,7 +95,7 @@ const StyledLink = styled(Link)`
 
 const Button = (props:any) => {
   // console.log('Link: ' + JSON.stringify(Link));
-  console.log('props: ' + JSON.stringify(props));
+  // console.log('props: ' + JSON.stringify(props));
   return props.to ? (
     <StyledLink {...props} cyan={props.cyan ? true : false} />
   ) : (
