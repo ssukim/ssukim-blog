@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import reportWebVitals from "./reportWebVitals";
+import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
@@ -20,9 +20,9 @@ const store = createStore(
 function loadUser() {
   // console.log('loadUser Start');
   try {
-    const user = localStorage.getItem('user');
+    const user: string | null = localStorage.getItem('user');
     if (!user) return; // 로그인 상태가 아니라면 아무것도 안함
-    console.log(user)
+    console.log(user);
     store.dispatch(tempSetUser(user));
     store.dispatch(getCheckStateAsync.request(''));
   } catch (e) {
