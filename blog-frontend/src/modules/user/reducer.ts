@@ -8,6 +8,7 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 import { AxiosError } from 'axios';
 import * as authAPI from '../../lib/api/auth';
 import { UserInfo } from '../../lib/api/auth';
+import { finishLoading, startLoading } from '../loading/loading';
 
 const CHECK = 'user/CHECK';
 const CHECK_SUCCESS = 'user/CHECK_SUCCESS';
@@ -15,33 +16,36 @@ const CHECK_FAILURE = 'user/CHECK_FAILURE';
 const LOGOUT = 'user/LOGOUT';
 const TEMP_SET_USER = 'user/TEMP_SET_USER'; // 새로고침 이후 임시 로그인 처리
 
-export const getCheckStateAsync = createAsyncAction(
+export const checkAsync = createAsyncAction(
   CHECK,
   CHECK_SUCCESS,
   CHECK_FAILURE,
 )<string, UserInfo, AxiosError>();
 
 export const logout = createAction(LOGOUT)();
-export const tempSetUser = createAction(TEMP_SET_USER)<string>();
+export const tempSetUser = createAction(TEMP_SET_USER)<string | null>();
 
-const actions = { getCheckStateAsync, logout, tempSetUser };
+const actions = { checkAsync, logout, tempSetUser };
 type UserAction = ActionType<typeof actions>;
 
 //saga 생성
-function* getUserCheckSaga(
-  action: ReturnType<typeof getCheckStateAsync.request>,
+function* checkSaga(
+  action: ReturnType<typeof checkAsync.request>,
 ) {
-  // console.log('getCheckStateAsync')
+  // console.log('checkAsync')
+  yield put(startLoading(CHECK)); // 로딩 시작
   try {
-    const userProfile: UserInfo = yield call(authAPI.check, action.payload);
-    yield put(getCheckStateAsync.success(userProfile));
+    const response: UserInfo = yield call(authAPI.check, action.payload);
+    // console.log(response)
+    yield put(checkAsync.success(response));
   } catch (e) {
-    yield put(getCheckStateAsync.failure(e));
+    yield put(checkAsync.failure(e));
   }
+  yield put(finishLoading(CHECK)); // 로딩 시작
 }
 
 function checkFailureSaga() {
-  console.log('checkFailureSaga')
+  console.log('checkFailureSaga');
   try {
     localStorage.removeItem('user'); // localStorage에서 user를 제거
   } catch (e) {
@@ -51,7 +55,7 @@ function checkFailureSaga() {
 
 function* logoutSaga() {
   try {
-    yield call(logout); // logout API 호출
+    yield call(authAPI.logout); // logout API 호출
     localStorage.removeItem('user'); // localStorage에서 user를 제거
   } catch (e) {
     console.log(e);
@@ -59,27 +63,29 @@ function* logoutSaga() {
 }
 
 export function* userSaga() {
-  yield takeLatest(CHECK, getUserCheckSaga);
+  yield takeLatest(CHECK, checkSaga);
   yield takeLatest(CHECK_FAILURE, checkFailureSaga);
   yield takeLatest(LOGOUT, logoutSaga);
 }
 
 //리듀서 초기화
 type UserState = {
-  user: UserInfo | string | null;
+  user: UserInfo | null;
+  tempUser: string | null;
   checkError: Error | null;
 };
 
 const initialState: UserState = {
   user: null,
+  tempUser: null,
   checkError: null,
 };
 
 //리듀서 정의
 const reducer = createReducer<UserState, UserAction>(initialState, {
-  [TEMP_SET_USER]: (state, { payload: user }) => ({
+  [TEMP_SET_USER]: (state, { payload: tempUser }) => ({
     ...state,
-    user,
+    tempUser,
   }),
   [CHECK_SUCCESS]: (state, { payload: user }) => ({
     ...state,

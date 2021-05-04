@@ -38,7 +38,8 @@ const WhiteBox = styled.div`
   border-radius: 2px;
 `;
 
-const AuthTemplate = ({children}:any) => {
+const AuthTemplate = ({children}: { children: React.ReactNode }) => {
+  // console.log(children)
   return (
     <AuthTemplateBlock>
       <WhiteBox>

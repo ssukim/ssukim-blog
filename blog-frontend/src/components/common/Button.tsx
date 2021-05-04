@@ -51,7 +51,11 @@ import palette from '../../lib/styles/palette';
 //   return <StyledButton {...rest} onClick={onClick} />;
 // };
 
-const buttonStyle = css<any>`
+type ButtonProps = {
+  fullWidth?: boolean,
+  cyan?: boolean
+};
+const buttonStyle = css<ButtonProps>`
   border: none;
   border-radius: 4px;
   font-size: 1rem;
@@ -62,11 +66,11 @@ const buttonStyle = css<any>`
   cursor: pointer;
 
   background: ${palette.gray[8]};
-  $:hover {
+  &:hover {
     background: ${palette.gray[6]};
   }
 
-  ${(props) =>
+  ${props =>
     props.fullWidth &&
     css`
       padding-top: 0.75rem;
@@ -75,7 +79,7 @@ const buttonStyle = css<any>`
       font-size: 1.125rem;
     `}
 
-  ${(props) =>
+  ${props =>
     props.cyan &&
     css`
       background: ${palette.cyan[5]};
@@ -94,10 +98,8 @@ const StyledLink = styled(Link)`
 `;
 
 const Button = (props:any) => {
-  // console.log('Link: ' + JSON.stringify(Link));
-  // console.log('props: ' + JSON.stringify(props));
   return props.to ? (
-    <StyledLink {...props} cyan={props.cyan ? true : false} />
+    <StyledLink {...props} />
   ) : (
     <StyledButton {...props} />
   );

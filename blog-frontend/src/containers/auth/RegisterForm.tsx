@@ -7,9 +7,9 @@ import React, {
   } from 'react';
   import { useDispatch, useSelector } from 'react-redux';
   import { RootState } from '../../modules';
-  import { changeField, initializeForm, register } from '../../modules/auth/auth';
+  import { changeField, initializeForm, registerAsync } from '../../modules/auth';
   import AuthForm from '../../components/auth/AuthForm';
-  import { getCheckStateAsync } from '../../modules/user';
+  import { checkAsync } from '../../modules/user';
   import { withRouter, RouteComponentProps } from 'react-router-dom';
   
   const RegisterForm: FunctionComponent<RouteComponentProps> = ({ history }) => {
@@ -52,22 +52,22 @@ import React, {
         );
         return;
       }
-      dispatch(register({ username, password }));
+      dispatch(registerAsync.request({ username, password }));
     };
   
     //컴포넌트가 처음 렌더링될 때 form을 초기화함
     useEffect(() => {
-      dispatch(initializeForm('register'));
+      dispatch(initializeForm());
     }, [dispatch]);
   
     // 회원가입 성공/실패 처리
     useEffect(() => {
       if (authError) {
         // 계정명이 이미 존재할 때
-        if (authError.response.status === 409) {
-          setError('이미 존재하는 계정명입니다.');
-          return;
-        }
+        // if (authError.response.status === 409) {
+        //   setError('이미 존재하는 계정명입니다.');
+        //   return;
+        // }
         // 기타 이유
         setError('회원가입 실패');
         return;
@@ -75,7 +75,7 @@ import React, {
       if (auth) {
         console.log('회원가입 성공');
         // console.log(auth);
-        dispatch(getCheckStateAsync.request(''));
+        dispatch(checkAsync.request(''));
       }
     }, [auth, authError, dispatch]);
   

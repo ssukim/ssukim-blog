@@ -8,10 +8,10 @@ import React, {
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../modules';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
-import { changeField, initializeForm, login } from '../../modules/auth/auth';
+import { changeField, initializeForm, loginAsync } from '../../modules/auth';
 // import { getAuthAsync } from '../../modules/auth';
 import AuthForm from '../../components/auth/AuthForm';
-import { getCheckStateAsync } from '../../modules/user';
+import { checkAsync } from '../../modules/user';
 
 const LoginForm: FunctionComponent<RouteComponentProps> = ({ history }) => {
   const [error, setError] = useState<string>('');
@@ -40,12 +40,12 @@ const LoginForm: FunctionComponent<RouteComponentProps> = ({ history }) => {
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { username, password } = form;
-    dispatch(login({ username, password }));
+    dispatch(loginAsync.request({ username, password }));
   };
 
   //컴포넌트가 처음 렌더링될 때 form을 초기화함
   useEffect(() => {
-    dispatch(initializeForm('login'));
+    dispatch(initializeForm());
   }, [dispatch]);
 
   useEffect(() => {
@@ -55,9 +55,10 @@ const LoginForm: FunctionComponent<RouteComponentProps> = ({ history }) => {
       setError('로그인 실패');
       return;
     }
+    // console.log('auth:'+auth);
     if (auth) {
       console.log('로그인 성공');
-      dispatch(getCheckStateAsync.request(''));
+      dispatch(checkAsync.request(''));
     }
   }, [auth, authError, dispatch]);
 

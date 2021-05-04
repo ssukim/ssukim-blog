@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Responsive from './Responsive';
 import Button from './Button';
 import { Link } from 'react-router-dom';
+import { UserInfo } from '../../lib/api/auth';
 
 const HeaderBlock = styled.div`
   position: fixed;
@@ -37,12 +38,17 @@ const Spacer = styled.div`
   height: 4rem;
 `;
 
-const UserInfo = styled.div`
+const UserInfoH = styled.div`
   font-weight: 800;
   margin-right: 1rem;
 `;
 
-const Header = ({ user, onLogout }: any) => {
+interface HeaderProps {
+  user: UserInfo | null,
+  onLogout: Function
+}
+
+const Header = ({ user, onLogout }:HeaderProps) => {
   // console.log(user)
 
   return (
@@ -54,7 +60,7 @@ const Header = ({ user, onLogout }: any) => {
           </Link>
           {user ? (
             <div className="right">
-              <UserInfo>{user.username}</UserInfo>
+              <UserInfoH>{user.username}</UserInfoH>
               <Button onClick={onLogout}>로그아웃</Button>
             </div>
           ) : (
