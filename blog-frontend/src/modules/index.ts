@@ -2,14 +2,16 @@ import { combineReducers } from 'redux';
 import { all } from 'redux-saga/effects';
 import auth, { authSaga } from './auth/';
 import loading from './loading/loading';
-import user ,{ userSaga }from './user/'
-import write from './write'
+import user, { userSaga } from './user/';
+import write, { writeSaga } from './write';
+import post, { postSaga } from './post';
 
 const rootReducer = combineReducers({
   auth,
   loading,
   user,
-  write
+  write,
+  post,
 });
 
 export default rootReducer;
@@ -21,5 +23,5 @@ export type RootState = ReturnType<typeof rootReducer>;
 // 루트 사가를 만들어서 내보내주세요.
 export function* rootSaga() {
   // console.log('rootSaga Call');
-  yield all([authSaga(), userSaga()]);
+  yield all([authSaga(), userSaga(), writeSaga(), postSaga()]);
 }
