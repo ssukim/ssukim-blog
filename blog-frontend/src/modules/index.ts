@@ -5,6 +5,7 @@ import loading from './loading/loading';
 import user, { userSaga } from './user/';
 import write, { writeSaga } from './write';
 import post, { postSaga } from './post';
+import posts, { postsSaga } from './posts';
 
 const rootReducer = combineReducers({
   auth,
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   user,
   write,
   post,
+  posts
 });
 
 export default rootReducer;
@@ -23,5 +25,5 @@ export type RootState = ReturnType<typeof rootReducer>;
 // 루트 사가를 만들어서 내보내주세요.
 export function* rootSaga() {
   // console.log('rootSaga Call');
-  yield all([authSaga(), userSaga(), writeSaga(), postSaga()]);
+  yield all([authSaga(), userSaga(), writeSaga(), postSaga(), postsSaga()]);
 }

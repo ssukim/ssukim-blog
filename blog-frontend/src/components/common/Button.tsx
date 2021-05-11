@@ -52,8 +52,8 @@ import palette from '../../lib/styles/palette';
 // };
 
 type ButtonProps = {
-  fullWidth?: boolean,
-  cyan?: boolean
+  fullWidth?: any,
+  cyan?: any
 };
 const buttonStyle = css<ButtonProps>`
   border: none;
