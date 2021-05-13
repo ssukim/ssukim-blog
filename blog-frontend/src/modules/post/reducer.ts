@@ -28,6 +28,7 @@ function* readPostSaga(action: ReturnType<typeof readPostAsync.request>) {
   yield put(startLoading(READ_POST)); // 로딩 시작
   try {
     const response: ReadPostInfo = yield call(readPost, action.payload);
+    // console.log('response: ' + JSON.stringify(response));
     yield put(readPostAsync.success(response));
   } catch (e) {
     yield put(readPostAsync.failure(e));
@@ -51,19 +52,19 @@ const initialState: ReadState = {
 };
 
 const post = createReducer<ReadState, ReadAction>(initialState, {
-  [READ_POST]: state => ({
+  [READ_POST]: (state) => ({
     ...state,
-    loading:true
+    loading: true,
   }),
   [READ_POST_SUCCESS]: (state, { payload: post }) => ({
     ...state,
     post,
     loading: false,
   }),
-  [READ_POST_FAILURE]: (state, { payload: error}) => ({
-      ...state,
-      error,
-      loading: false,
+  [READ_POST_FAILURE]: (state, { payload: error }) => ({
+    ...state,
+    error,
+    loading: false,
   }),
   [UNLOAD_POST]: () => initialState,
 });

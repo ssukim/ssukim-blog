@@ -94,7 +94,7 @@ export const login = async ctx => {
             httpOnly: true,
         });
 
-        console.log(ctx);
+        // console.log(ctx);
     }catch(e){
         ctx.throw(500, e);
     }
@@ -105,6 +105,7 @@ export const login = async ctx => {
 */
 export const check = async ctx => {
     const {user} = ctx.state;
+    // console.log('user:'+user)
     if(!user) {
         // 로그인 중 아님
         ctx.status = 401; // Unauthorized
@@ -117,6 +118,7 @@ export const check = async ctx => {
     POST /api/auth/logout
 */
 export const logout = async ctx => {
+    // console.log('logout')
     ctx.cookies.set('access_token');
     ctx.status = 204; // No Content
 };

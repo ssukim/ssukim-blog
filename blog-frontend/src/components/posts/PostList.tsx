@@ -50,15 +50,10 @@ type PostListProps = {
 };
 
 type PostItemProps = {
-  title: string;
-  body: string;
-  tags: string[];
-  publishedDate: Date;
-  user: UserInfo;
-  _id: string;
+  post: ReadPostInfo
 };
 
-const PostItem = ({ post }: { post: any }) => {
+const PostItem = ({ post }: PostItemProps) => {
   // console.log(post)
   const { title, body, tags, publishedDate, user, _id } = post;
   return (
@@ -85,6 +80,7 @@ const PostList = ({
   if (error) {
     return <PostListBlock>에러가 발생했습니다.</PostListBlock>;
   }
+  
   return (
     <PostListBlock>
       <WritePostButtonWrapper>
@@ -94,6 +90,7 @@ const PostList = ({
           </Button>
         )}
       </WritePostButtonWrapper>
+      {loading && <p style={{textAlign: 'center'}}>로딩중...</p>}
       {/* 로딩 중이 아니고, 포스트 배열이 존재할 때만 노출 */}
       {!loading && posts && (
         <div>

@@ -2,7 +2,7 @@ import React, { FunctionComponent, useEffect } from 'react';
 import qs from 'qs';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../modules';
-import PostList from '../../components/post/PostList';
+import PostList from '../../components/posts/PostList';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { listPostsAsync } from '../../modules/posts';
 

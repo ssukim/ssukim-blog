@@ -4,23 +4,24 @@ import styled, { css } from 'styled-components';
 import palette from '../../lib/styles/palette';
 
 type SubInfoBlockProps = {
-  hasMarginTop: any;
+  hasMarginTop?: boolean;
 };
 
 type SubInfoProps = {
   username: string;
   publishedDate: Date;
+  hasMarginTop?: boolean;
 };
 
-const SubInfoBlock = styled.div`
+const SubInfoBlock = styled.div<SubInfoBlockProps>`
   ${(props) =>
-    props &&
+    props.hasMarginTop &&
     css`
       margin-top: 1rem;
     `}
   color: ${palette.gray[6]}
 
-  /* span 사이에 가운뎃점 문자 보여 주기 */
+  /* span 사이에 가운뎃점 문자 보여주기*/
   span + span:before {
     color: ${palette.gray[4]};
     padding-left: 0.25rem;
@@ -29,12 +30,12 @@ const SubInfoBlock = styled.div`
   }
 `;
 
-const SubInfo = ({ username, publishedDate }: SubInfoProps) => {
+const SubInfo = ({ username, publishedDate, hasMarginTop }: SubInfoProps) => {
   return (
-    <SubInfoBlock>
+    <SubInfoBlock hasMarginTop={hasMarginTop}>
       <span>
         <b>
-          <Link to={`/@username`}>{username}</Link>
+          <Link to={`/@${username}`}>{username+' '}</Link>
         </b>
       </span>
       <span>{new Date(publishedDate).toLocaleDateString()}</span>

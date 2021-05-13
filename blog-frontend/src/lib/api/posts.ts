@@ -19,7 +19,7 @@ export async function listPosts({ page, username, tag }: ListPostInfo) {
     tag,
   });
   const response = await client.get(`/api/posts?${queryString}`);
-  return response.data;
+  return response;
 }
 
 export interface WritePostInfo {
