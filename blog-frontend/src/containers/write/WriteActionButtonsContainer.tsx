@@ -3,24 +3,36 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 import WriteActionButtons from '../../components/write/WriteActionButtons';
 import { RootState } from '../../modules';
-import { writeAsync } from '../../modules/write';
+import { updateAsync, writeAsync } from '../../modules/write';
 
 const WriteActionButtonsContainer: FunctionComponent<RouteComponentProps> = ({
   history,
 }) => {
   const dispatch = useDispatch();
-  const { title, body, tags, post, postError } = useSelector(
+  const { title, body, tags, post, postError, originalPostId } = useSelector(
     (state: RootState) => ({
       title: state.write.title,
       body: state.write.body,
       tags: state.write.tags,
       post: state.write.post,
       postError: state.write.postError,
+      originalPostId: state.write.originalPostId,
     }),
   );
 
   // 포스트 등록
   const onPublish = () => {
+    if (originalPostId) {
+      dispatch(
+        updateAsync.request({
+          title,
+          body,
+          tags,
+          id:originalPostId
+        }),
+      );
+      return;
+    }
     dispatch(
       writeAsync.request({
         title,
@@ -46,7 +58,7 @@ const WriteActionButtonsContainer: FunctionComponent<RouteComponentProps> = ({
     }
   }, [history, post, postError]);
 
-  return <WriteActionButtons onPublish={onPublish} onCancel={onCancel} />;
+  return <WriteActionButtons onPublish={onPublish} onCancel={onCancel} isEdit={!!originalPostId}/>;
 };
 
 export default withRouter(WriteActionButtonsContainer);

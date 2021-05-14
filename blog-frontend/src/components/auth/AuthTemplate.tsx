@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ReactNode} from 'react';
 import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
 import {Link} from 'react-router-dom';
@@ -38,7 +38,7 @@ const WhiteBox = styled.div`
   border-radius: 2px;
 `;
 
-const AuthTemplate = ({children}: { children: React.ReactNode }) => {
+const AuthTemplate = ({children}: { children: ReactNode }) => {
   // console.log(children)
   return (
     <AuthTemplateBlock>

@@ -43,8 +43,8 @@ type quillInstance = {
 };
 
 const Editor = ({ title, body, onChangeField }: any) => {
-  const quillElement: quillElement | any = useRef('');
-  const quillInstance: quillInstance = useRef('');
+  const quillElement: any = useRef(null);
+  const quillInstance: any = useRef(null);
 
   useEffect(() => {
     quillInstance.current = new Quill(quillElement.current, {
@@ -63,13 +63,23 @@ const Editor = ({ title, body, onChangeField }: any) => {
     //quill에 text-change 이벤트 핸들러 등록
     //참고: https://quilljs.com/docs/api#events
     const quill = quillInstance.current;
-    quill.on('text-change', (delta, oldDelta, source) => {
-      if (source === 'user') {
-        onChangeField({ key: 'body', value: quill.root.innerHTML });
-      }
-    });
+    quill.on(
+      'text-change',
+      (delta: string, oldDelta: string, source: string) => {
+        if (source === 'user') {
+          onChangeField({ key: 'body', value: quill.root.innerHTML });
+        }
+      },
+    );
   }, [onChangeField]);
 
+  const mounted = useRef(false);
+  useEffect(() => {
+    if (mounted.current) return;
+    mounted.current = true;
+    quillInstance.current.root.innerHTML = body;
+  }, [body]);
+  
   const onChangeTitle = (e: any) => {
     onChangeField({ key: 'title', value: e.target.value });
   };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ReactNode} from 'react';
 import styled from 'styled-components';
 import { ReadPostInfo } from '../../lib/api/posts';
 import palette from '../../lib/styles/palette';
@@ -28,10 +28,11 @@ const PostContent = styled.div`
 type PostViewerProps = {
   post: ReadPostInfo | null,
   loading: boolean,
-  error: Error | null
+  error: Error | null,
+  actionButtons: ReactNode
 }
 
-const PostViewer = ({post, error, loading}: PostViewerProps) => {
+const PostViewer = ({post, error, loading, actionButtons}: PostViewerProps) => {
   
   // 에러 발생 시
   if(error){
@@ -55,6 +56,7 @@ const PostViewer = ({post, error, loading}: PostViewerProps) => {
         <SubInfo username={user.username} publishedDate={publishedDate} hasMarginTop/>
         <Tags tags={tags}/>
       </PostHead>
+      {actionButtons}
       <PostContent
         dangerouslySetInnerHTML={{ __html: body }}
       />

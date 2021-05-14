@@ -26,6 +26,7 @@ export async function check(context: unknown) {
 export const logout = () => client.post('/api/auth/logout');
 
 export interface UserInfo {
+  _id?: string;
   username: string;
   password: string;
   passwordConfirm?: string;
