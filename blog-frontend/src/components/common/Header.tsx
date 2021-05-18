@@ -56,7 +56,7 @@ const Header = ({ user, onLogout }:HeaderProps) => {
       <HeaderBlock>
         <Wrapper>
           <Link to="/" className="logo">
-            REACTERS
+            SSUKIMLOG
           </Link>
           {user ? (
             <div className="right">

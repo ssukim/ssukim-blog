@@ -1,8 +1,9 @@
-import mongoose, { Schema } from 'mongoose';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+import * as mongoose from 'mongoose';
+import { Document, Schema } from 'mongoose';
+import * as bcrypt from 'bcrypt';
+import * as jwt from 'jsonwebtoken';
 
-const UserSchema = new Schema({
+const UserSchema: Schema = new Schema({
   username: String,
   hashedPassword: String,
 });
@@ -43,5 +44,5 @@ UserSchema.methods.generateToken = function () {
   return token;
 };
 
-const User = mongoose.model('User', UserSchema);
+const User: any = mongoose.model('User', UserSchema);
 export default User;

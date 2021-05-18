@@ -1,8 +1,8 @@
-import mongoose from 'mongoose';
+import * as mongoose from 'mongoose';
 
 const { Schema } = mongoose;
 
-const PsotSchema = new Schema({
+const PostSchema = new Schema({
   title: String,
   body: String,
   tags: [String], // 문자열로 이루어진 배열
@@ -16,5 +16,5 @@ const PsotSchema = new Schema({
   },
 });
 
-const Post = mongoose.model('Post', PsotSchema);
+const Post = mongoose.model('Post', PostSchema);
 export default Post;

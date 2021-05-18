@@ -1,7 +1,7 @@
 import Post from '../models/post';
-import mongoose from 'mongoose';
-import Joi from '@hapi/joi';
-import sanitizeHtml from 'sanitize-html';
+import * as mongoose from 'mongoose';
+import * as Joi from "joi";
+import * as sanitizeHtml from 'sanitize-html';
 
 const { ObjectId } = mongoose.Types;
 

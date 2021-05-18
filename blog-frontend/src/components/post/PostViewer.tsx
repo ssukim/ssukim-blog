@@ -1,4 +1,5 @@
 import React, {ReactNode} from 'react';
+import { Helmet } from 'react-helmet-async';
 import styled from 'styled-components';
 import { ReadPostInfo } from '../../lib/api/posts';
 import palette from '../../lib/styles/palette';
@@ -51,6 +52,9 @@ const PostViewer = ({post, error, loading, actionButtons}: PostViewerProps) => {
 
   return (
     <PostViewerBlock>
+      <Helmet>
+        <title>{title} - SSUKIMLOG</title>
+      </Helmet>
       <PostHead>
         <h1>{title}</h1>
         <SubInfo username={user.username} publishedDate={publishedDate} hasMarginTop/>
