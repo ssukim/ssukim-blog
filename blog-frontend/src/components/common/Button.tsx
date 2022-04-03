@@ -1,13 +1,16 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, LinkProps } from 'react-router-dom';
 import palette from '../../lib/styles/palette';
 
 type ButtonProps = {
-  fullWidth: boolean,
-  cyan: boolean,
-  disabled: boolean
-}
+  fullWidth?: boolean;
+  cyan?: boolean;
+  disabled?: boolean;
+  linkProps?: LinkProps;
+  children: React.ReactNode;
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
+
 const buttonStyle = css<ButtonProps>`
   border: none;
   border-radius: 4px;
@@ -16,15 +19,14 @@ const buttonStyle = css<ButtonProps>`
   padding: 0.25rem 1rem;
   color: white;
   outline: none;
-  cursor: pointer;
-
   background: ${palette.gray[8]};
+  cursor: pointer;
   &:hover {
     background: ${palette.gray[6]};
   }
 
-  ${(props) =>
-    props.fullWidth &&
+  ${({ fullWidth }) =>
+    fullWidth &&
     css`
       padding-top: 0.75rem;
       padding-bottom: 0.75rem;
@@ -32,8 +34,8 @@ const buttonStyle = css<ButtonProps>`
       font-size: 1.125rem;
     `}
 
-  ${(props) =>
-    props.cyan &&
+  ${({ cyan }) =>
+    cyan &&
     css`
       background: ${palette.cyan[5]};
       &:hover {
@@ -41,12 +43,15 @@ const buttonStyle = css<ButtonProps>`
       }
     `}
 
-  ${(props) =>
-    props.disabled &&
+  ${({ disabled }) =>
+    disabled &&
     css`
       background: ${palette.gray[3]};
       color: ${palette.gray[5]};
       cursor: not-allowed;
+      &:hover {
+        background: ${palette.gray[3]};
+      }
     `}
 `;
 
@@ -58,12 +63,28 @@ const StyledLink = styled(Link)`
   ${buttonStyle}
 `;
 
-const Button = (props:any) => {
-  // console.log('props: '+ JSON.stringify(props));
-  return props.to ? (
-    <StyledLink {...props} />
-  ) : (
-    <StyledButton {...props} />
+const Button = (props: ButtonProps) => {
+  return (
+    <>
+      {props.linkProps && !props.disabled ? (
+        <StyledLink
+          to={props.linkProps.to}
+          fullWidth={props.fullWidth}
+          cyan={props.cyan}
+          disabled={props.disabled}
+        >
+          {props.children}
+        </StyledLink>
+      ) : (
+        <StyledButton
+          fullWidth={props.fullWidth}
+          cyan={props.cyan}
+          disabled={props.disabled}
+        >
+          {props.children}
+        </StyledButton>
+      )}
+    </>
   );
 };
 

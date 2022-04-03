@@ -18,8 +18,8 @@ const HeaderBlock = styled.div`
 const Wrapper = styled(Responsive)`
   height: 4rem;
   display: flex;
-  align-item: center;
-  justify-content: space-between; /* 자식 엘리먼트 사이의 여백을 최대로 설정 */
+  align-items: center;
+  justify-content: space-between;
   .logo {
     font-size: 1.125rem;
     font-weight: 800;
@@ -44,13 +44,11 @@ const UserInfoH = styled.div`
 `;
 
 interface HeaderProps {
-  user: UserInfo | null,
-  onLogout: Function
+  user: UserInfo | null;
+  onLogout: () => void;
 }
 
-const Header = ({ user, onLogout }:HeaderProps) => {
-  // console.log(user)
-
+const Header = ({ user, onLogout }: HeaderProps) => {
   return (
     <>
       <HeaderBlock>
@@ -65,7 +63,13 @@ const Header = ({ user, onLogout }:HeaderProps) => {
             </div>
           ) : (
             <div className="right">
-              <Button to="/login">로그인</Button>
+              <Button
+                linkProps={{
+                  to: '/login',
+                }}
+              >
+                로그인
+              </Button>
             </div>
           )}
         </Wrapper>

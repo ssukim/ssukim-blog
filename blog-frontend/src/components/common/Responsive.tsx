@@ -5,7 +5,7 @@ const ResponsiceBlock = styled.div`
   padding-left: 1rem;
   padding-right: 1rem;
   width: 1024px;
-  margin: 0 auth; /* 중앙 정렬 */
+  margin: 0 auto;
 
   /* 브라우저 크기에 따라 가로 크기 변경 */
   @media (max-width: 1024px) {
@@ -16,7 +16,10 @@ const ResponsiceBlock = styled.div`
   }
 `;
 
-const Responsive = ({ children, ...rest }: any) => {
+type Props = {
+  children: React.ReactNode;
+};
+const Responsive = ({ children, ...rest }: Props) => {
   // style, className, onClick, onMouseMove 등의 props를 사용할 수 있도록
   // ...rest를 사용하여 ResponsiveBlock에게 전달
   return <ResponsiceBlock {...rest}>{children}</ResponsiceBlock>;

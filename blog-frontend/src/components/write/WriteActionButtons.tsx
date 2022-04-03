@@ -19,8 +19,8 @@ const StyledButton = styled(Button)`
 `;
 
 type WriteActionButtonsProps = {
-  onCancel: Function;
-  onPublish: Function;
+  onCancel: () => void;
+  onPublish: () => void;
   isEdit: boolean;
 };
 const WriteActionButtons = ({

@@ -23,7 +23,7 @@ const PostItemBlock = styled.div`
   padding-top: 3rem;
   padding-bottom: 3rem;
   /* 맨 위 포스트는 padding-top 없음 */
-  $:first-child {
+  &:first-child {
     padding-top: 0;
   }
   & + & {
@@ -50,7 +50,7 @@ type PostListProps = {
 };
 
 type PostItemProps = {
-  post: ReadPostInfo
+  post: ReadPostInfo;
 };
 
 const PostItem = ({ post }: PostItemProps) => {
@@ -80,22 +80,27 @@ const PostList = ({
   if (error) {
     return <PostListBlock>에러가 발생했습니다.</PostListBlock>;
   }
-  
+
   return (
     <PostListBlock>
       <WritePostButtonWrapper>
         {showWriteButton && (
-          <Button cyan="true" to="/write">
+          <Button
+            cyan
+            linkProps={{
+              to: '/write',
+            }}
+          >
             새 글 작성하기
           </Button>
         )}
       </WritePostButtonWrapper>
-      {loading && <p style={{textAlign: 'center'}}>로딩중...</p>}
+      {loading && <p style={{ textAlign: 'center' }}>로딩중...</p>}
       {/* 로딩 중이 아니고, 포스트 배열이 존재할 때만 노출 */}
       {!loading && posts && (
         <div>
           {posts.map((post) => (
-            <PostItem post={post} key={post._id}/>
+            <PostItem post={post} key={post._id} />
           ))}
         </div>
       )}
