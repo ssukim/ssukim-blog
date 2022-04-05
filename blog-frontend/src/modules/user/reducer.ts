@@ -29,23 +29,18 @@ const actions = { checkAsync, logout, tempSetUser };
 type UserAction = ActionType<typeof actions>;
 
 //saga 생성
-function* checkSaga(
-  action: ReturnType<typeof checkAsync.request>,
-) {
-  // console.log('checkAsync')
+function* checkSaga(action: ReturnType<typeof checkAsync.request>) {
   yield put(startLoading(CHECK)); // 로딩 시작
   try {
     const response: UserInfo = yield call(authAPI.check, action.payload);
-    // console.log(response)
     yield put(checkAsync.success(response));
-  } catch (e) {
-    yield put(checkAsync.failure(e));
+  } catch (error) {
+    yield put(checkAsync.failure(error as any));
   }
   yield put(finishLoading(CHECK)); // 로딩 시작
 }
 
 function checkFailureSaga() {
-  console.log('checkFailureSaga');
   try {
     localStorage.removeItem('user'); // localStorage에서 user를 제거
   } catch (e) {

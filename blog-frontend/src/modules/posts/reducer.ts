@@ -26,13 +26,13 @@ function* listPostsSaga(action: ReturnType<typeof listPostsAsync.request>) {
       data: ReadPostInfo[];
       headers: { ['last-page']: string };
     } = yield call(listPosts, action.payload);
-    
+
     // console.log(response.headers['last-page']);
     // console.log(response.headers);
-    g_lastPage=parseInt(response.headers['last-page'], 10);
+    g_lastPage = parseInt(response.headers['last-page'], 10);
     yield put(listPostsAsync.success(response.data));
   } catch (e) {
-    yield put(listPostsAsync.failure(e));
+    yield put(listPostsAsync.failure(e as any));
   }
   yield put(finishLoading(LIST_POSTS));
 }

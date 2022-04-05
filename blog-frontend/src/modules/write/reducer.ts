@@ -39,7 +39,13 @@ export const updateAsync = createAsyncAction(
   UPDATE_POST_FAILURE,
 )<WritePostInfo, WritePostInfo, AxiosError>();
 
-const actions = { initialize, changeField, setOriginalPost, writeAsync, updateAsync };
+const actions = {
+  initialize,
+  changeField,
+  setOriginalPost,
+  writeAsync,
+  updateAsync,
+};
 type WriteAction = ActionType<typeof actions>;
 
 //saga 생성
@@ -49,7 +55,7 @@ function* writePostSaga(action: ReturnType<typeof writeAsync.request>) {
     const response: WritePostInfo = yield call(writePost, action.payload);
     yield put(writeAsync.success(response));
   } catch (e) {
-    yield put(writeAsync.failure(e));
+    yield put(writeAsync.failure(e as any));
   }
   yield put(finishLoading(WRITE_POST)); // 로딩 끝
 }
@@ -60,7 +66,7 @@ function* updatePostSaga(action: ReturnType<typeof updateAsync.request>) {
     const response: WritePostInfo = yield call(updatePost, action.payload);
     yield put(updateAsync.success(response));
   } catch (e) {
-    yield put(updateAsync.failure(e));
+    yield put(updateAsync.failure(e as any));
   }
   yield put(finishLoading(UPDATE_POST)); // 로딩 끝
 }

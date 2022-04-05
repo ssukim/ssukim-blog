@@ -50,25 +50,25 @@ type AuthAction = ActionType<typeof actions>;
 
 // saga 생성
 function* registerSaga(action: ReturnType<typeof registerAsync.request>) {
-  yield put (startLoading(REGISTER));
+  yield put(startLoading(REGISTER));
   try {
     const response: UserInfo = yield call(authAPI.register, action.payload);
     yield put(registerAsync.success(response));
   } catch (e) {
-    yield put(registerAsync.failure(e));
+    yield put(registerAsync.failure(e as any));
   }
-  yield put (finishLoading(REGISTER));
+  yield put(finishLoading(REGISTER));
 }
 
 function* loginSaga(action: ReturnType<typeof loginAsync.request>) {
-  yield put (startLoading(LOGIN));
+  yield put(startLoading(LOGIN));
   try {
     const response: UserInfo = yield call(authAPI.login, action.payload);
     yield put(loginAsync.success(response));
   } catch (e) {
-    yield put(loginAsync.failure(e));
+    yield put(loginAsync.failure(e as any));
   }
-  yield put (finishLoading(LOGIN));
+  yield put(finishLoading(LOGIN));
 }
 
 export function* authSaga() {

@@ -3,15 +3,12 @@ import styled, { css } from 'styled-components';
 import { Link, LinkProps } from 'react-router-dom';
 import palette from '../../lib/styles/palette';
 
-type ButtonProps = {
-  fullWidth?: boolean;
-  cyan?: boolean;
-  disabled?: boolean;
-  linkProps?: LinkProps;
-  children: React.ReactNode;
+type StyledButtonProps = {
+  $fullWidth?: boolean;
+  $cyan?: boolean;
+  $disabled?: boolean;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
-
-const buttonStyle = css<ButtonProps>`
+const buttonStyle = css<StyledButtonProps>`
   border: none;
   border-radius: 4px;
   font-size: 1rem;
@@ -25,8 +22,8 @@ const buttonStyle = css<ButtonProps>`
     background: ${palette.gray[6]};
   }
 
-  ${({ fullWidth }) =>
-    fullWidth &&
+  ${({ $fullWidth }) =>
+    $fullWidth &&
     css`
       padding-top: 0.75rem;
       padding-bottom: 0.75rem;
@@ -34,8 +31,8 @@ const buttonStyle = css<ButtonProps>`
       font-size: 1.125rem;
     `}
 
-  ${({ cyan }) =>
-    cyan &&
+  ${({ $cyan }) =>
+    $cyan &&
     css`
       background: ${palette.cyan[5]};
       &:hover {
@@ -43,8 +40,8 @@ const buttonStyle = css<ButtonProps>`
       }
     `}
 
-  ${({ disabled }) =>
-    disabled &&
+  ${({ $disabled }) =>
+    $disabled &&
     css`
       background: ${palette.gray[3]};
       color: ${palette.gray[5]};
@@ -63,25 +60,40 @@ const StyledLink = styled(Link)`
   ${buttonStyle}
 `;
 
-const Button = (props: ButtonProps) => {
+type ButtonProps = {
+  fullWidth?: boolean;
+  cyan?: boolean;
+  disabled?: boolean;
+  linkProps?: LinkProps;
+  children: React.ReactNode;
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
+const Button = ({
+  fullWidth,
+  cyan,
+  disabled,
+  linkProps,
+  children,
+  ...rest
+}: ButtonProps) => {
   return (
     <>
-      {props.linkProps && !props.disabled ? (
+      {linkProps && !disabled ? (
         <StyledLink
-          to={props.linkProps.to}
-          fullWidth={props.fullWidth}
-          cyan={props.cyan}
-          disabled={props.disabled}
+          to={linkProps.to}
+          $fullWidth={fullWidth}
+          $cyan={cyan}
+          disabled={disabled}
         >
-          {props.children}
+          {children}
         </StyledLink>
       ) : (
         <StyledButton
-          fullWidth={props.fullWidth}
-          cyan={props.cyan}
-          disabled={props.disabled}
+          $fullWidth={fullWidth}
+          $cyan={cyan}
+          disabled={disabled}
+          {...rest}
         >
-          {props.children}
+          {children}
         </StyledButton>
       )}
     </>

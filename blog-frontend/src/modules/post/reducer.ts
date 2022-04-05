@@ -31,7 +31,7 @@ function* readPostSaga(action: ReturnType<typeof readPostAsync.request>) {
     // console.log('response: ' + JSON.stringify(response));
     yield put(readPostAsync.success(response));
   } catch (e) {
-    yield put(readPostAsync.failure(e));
+    yield put(readPostAsync.failure(e as any));
   }
   yield put(finishLoading(READ_POST)); // 로딩 끝
 }

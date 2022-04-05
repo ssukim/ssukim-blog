@@ -18,7 +18,6 @@ export async function register({ username, password }: UserInfo) {
 // 로그인 상태 확인
 export async function check(context: unknown) {
   const response = await client.get('/api/auth/check');
-  // console.log(response)
   return response.data;
 }
 
