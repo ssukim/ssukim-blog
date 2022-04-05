@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import Quill, { QuillOptionsStatic } from 'quill';
+import Quill from 'quill';
 import 'quill/dist/quill.bubble.css';
 import styled from 'styled-components';
 import Responsive from '../common/Responsive';
@@ -12,13 +12,13 @@ const EditorBlock = styled(Responsive)`
 `;
 
 const TitleInput = styled.input`
-    font-size: 3rem;
-    outline: none;
-    padding-bottom: 0.5rem;
-    border: none;
-    border-bottom: 1px solid ${palette.gray[4]};
-    margin-bottom: 2rem;
-    width: 100%;
+  font-size: 3rem;
+  outline: none;
+  padding-bottom: 0.5rem;
+  border: none;
+  border-bottom: 1px solid ${palette.gray[4]};
+  margin-bottom: 2rem;
+  width: 100%;
 `;
 const QuillWrapper = styled.div`
   /*최소 크기 지정 및 padding 제거*/
@@ -33,55 +33,57 @@ const QuillWrapper = styled.div`
   }
 `;
 
-type quillElement = {
-  current: string | Element;
-  options?: QuillOptionsStatic | undefined;
-  // ref?: React.LegacyRef<HTMLDivElement> | undefined
+type PayLoadProps = {
+  key: string;
+  value: string;
 };
-type quillInstance = {
-  current: string | Quill;
+type Props = {
+  title: string;
+  body: string;
+  onChangeField: (payload: PayLoadProps) => void;
 };
-
-const Editor = ({ title, body, onChangeField }: any) => {
-  const quillElement: any = useRef(null);
-  const quillInstance: any = useRef(null);
+const Editor = ({ title, body, onChangeField }: Props) => {
+  const quillElement = useRef<HTMLDivElement>(null);
+  const quillInstance = useRef<Quill>();
 
   useEffect(() => {
-    quillInstance.current = new Quill(quillElement.current, {
-      theme: 'bubble',
-      placeholder: '내용을 작성하세요...',
-      modules: {
-        toolbar: [
-          [{ header: '1' }, { header: '2' }],
-          ['bold', 'italic', 'underline', 'strike'],
-          [{ list: 'ordered' }, { list: 'bullet' }],
-          ['blockquote', 'code-block', 'link', 'image'],
-        ],
-      },
-    });
+    if (quillElement.current) {
+      quillInstance.current = new Quill(quillElement.current, {
+        theme: 'bubble',
+        placeholder: '내용을 작성하세요...',
+        modules: {
+          toolbar: [
+            [{ header: '1' }, { header: '2' }],
+            ['bold', 'italic', 'underline', 'strike'],
+            [{ list: 'ordered' }, { list: 'bullet' }],
+            ['blockquote', 'code-block', 'link', 'image'],
+          ],
+        },
+      });
 
-    //quill에 text-change 이벤트 핸들러 등록
-    //참고: https://quilljs.com/docs/api#events
-    const quill = quillInstance.current;
-    quill.on(
-      'text-change',
-      (delta: string, oldDelta: string, source: string) => {
+      //quill에 text-change 이벤트 핸들러 등록
+      //참고: https://quilljs.com/docs/api#events
+      const quill = quillInstance.current;
+      quill.on('text-change', (delta, oldContents, source) => {
         if (source === 'user') {
           onChangeField({ key: 'body', value: quill.root.innerHTML });
         }
-      },
-    );
+      });
+    }
   }, [onChangeField]);
 
   const mounted = useRef(false);
   useEffect(() => {
     if (mounted.current) return;
     mounted.current = true;
-    quillInstance.current.root.innerHTML = body;
+
+    if (quillInstance.current) {
+      quillInstance.current.root.innerHTML = body;
+    }
   }, [body]);
-  
-  const onChangeTitle = (e: any) => {
-    onChangeField({ key: 'title', value: e.target.value });
+
+  const onChangeTitle = (e: React.FormEvent<HTMLInputElement>) => {
+    onChangeField({ key: 'title', value: e.currentTarget.value });
   };
 
   return (
